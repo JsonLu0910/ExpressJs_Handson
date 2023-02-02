@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model youtube_channels{
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(100) @unique
+  description String?
+  link String?
+  subscribers Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model company{
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(100) @unique
+  address String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  employees employee []
+}
+
+model employee{
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(100) @unique
+  address String?
+  age Int?
+  COMPANY company @relation(fields: [companyId], references: [id])
+  companyId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
