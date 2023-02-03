@@ -11,6 +11,7 @@ app.use(express.json());
 app.get("/api/getAllEmployee",getAllEmployees);
 app.get("/api/getAllCompany",getAllCompanies);
 app.get("/api/getEmployeeByComp/:CompId",getEmployeeByComp);
+//Naming nid to change
 app.post("/api/createCompany",createACompany);
 app.post("/api/createEmployee",createAEmployee);
 app.put("/api/updateCompany",updateCompany);
