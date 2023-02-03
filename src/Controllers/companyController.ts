@@ -38,7 +38,7 @@ export const getAllCompanies =async (req:Request,res:Response,next:NextFunction)
     }
 }
 
-export const createACompany =async (req:Request,res:Response,next:NextFunction)=>
+export const create_Company =async (req:Request,res:Response,next:NextFunction)=>
 {
     try
     {

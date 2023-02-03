@@ -20,7 +20,7 @@
 
 import { Request, Response, NextFunction } from 'express';
 import {  PrismaClient } from '@prisma/client';
-import { getAllEmployee, getEmployeeByCompany,createEmployee,updateEmp } from '../Services/routes';
+import { getAllEmployee, getEmployeeByCompany,createEmployee,updateEmp,EmployeeLogin } from '../Services/routes';
 import createHttpError from 'http-errors';
 
 export const getAllEmployees =async (req:Request,res:Response,next:NextFunction)=>
@@ -44,7 +44,7 @@ export const getEmployeeByComp = async (req:Request,res:Response,next:NextFuncti
     return res.send(result);
 }
 
-export const createAEmployee =async (req:Request,res:Response,next:NextFunction)=>
+export const create_Employee =async (req:Request,res:Response,next:NextFunction)=>
 {
     try
     {
@@ -70,4 +70,10 @@ export const updateEmployee =async (req:Request,res:Response,next:NextFunction)=
     {
         console.log(e);
     }
+}
+
+export const Login = async (req:Request, res:Response, next:NextFunction)=>
+{
+    const result = await EmployeeLogin(req.body.name,req.body.password);
+    return res.send(result);
 }
