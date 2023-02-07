@@ -4,6 +4,7 @@ import express, { Request, Response, NextFunction } from 'express'
 const jsonWebToken = require('jsonwebtoken');
 const prisma = new PrismaClient();
 const myJWTSecretKey = 'my-secret-key';
+
 export const getAllEmployee = async () => {
     try {
         const res = await prisma.employee.findMany();
