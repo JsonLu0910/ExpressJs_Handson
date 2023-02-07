@@ -4,8 +4,10 @@ import express, { Request, Response, NextFunction } from 'express'
 const jsonWebToken = require('jsonwebtoken');
 const prisma = new PrismaClient();
 const myJWTSecretKey = 'my-secret-key';
+const refreshTokenSecret = 'yourrefreshtokensecrethere';
+const refreshTokens = [];
 
-export const getAllEmployee = async () => {
+export const getAllEmployee = async (next:NextFunction) => {
     try {
         const res = await prisma.employee.findMany();
         console.log(res);
@@ -13,6 +15,7 @@ export const getAllEmployee = async () => {
     }
     catch (e) {
         console.log(e);
+        return next(e);
     }
     finally {
         async () => {
@@ -21,7 +24,7 @@ export const getAllEmployee = async () => {
     }
 }
 
-export const getAllCompany = async () => {
+export const getAllCompany = async (next:NextFunction) => {
     try {
         const res = await prisma.company.findMany();
         console.log(res);
@@ -29,6 +32,7 @@ export const getAllCompany = async () => {
     }
     catch (e) {
         console.log(e);
+        return next(e);
     }
     finally {
         async () => {
@@ -71,7 +75,7 @@ export const createEmployee = async (name: string, address: string, age: number,
     return "employee created";
 }
 
-export const updateComp = async (id: number, name: string) => {
+export const updateCompany = async (id: number, name: string) => {
     const res = await prisma.company.update({
         where: {
             id: id
@@ -84,7 +88,7 @@ export const updateComp = async (id: number, name: string) => {
     return "company updated";
 }
 
-export const updateEmp = async (id: number, name: string) => {
+export const updateEmployee = async (id: number, name: string) => {
     const res = await prisma.employee.update({
         where: {
             id: id
@@ -97,7 +101,7 @@ export const updateEmp = async (id: number, name: string) => {
     return "employee updated";
 }
 
-export const EmployeeLogin = async (name: string, password: string) => {
+export const employeeLogin = async (name: string, password: string) => {
     const res = await prisma.employee.findMany
         ({
             where: { name: name, password: password }
@@ -114,8 +118,31 @@ export const EmployeeLogin = async (name: string, password: string) => {
             createdAt:res[0].createdAt,
             updatedAt:res[0].updatedAt,
         }
-        const token = jsonWebToken.sign(payload, myJWTSecretKey);
-        return {token:token};
+        const token = jsonWebToken.sign(payload, myJWTSecretKey, { expiresIn: '10m' });
+        //Added a refresh token
+        const refreshToken = jsonWebToken.sign(payload,refreshTokenSecret);
+
+        refreshTokens.push(refreshToken);
+        return {token:token,refreshToken:refreshToken};
     }
 
 }
+
+//Function to authenticate the user's JWT token
+export const authenticateJWT = (req:Request, res:Response, next:NextFunction) => {
+    const authHeader = req.headers.authorization;
+
+    if (authHeader) {
+        const token = authHeader.split(' ')[1];
+
+        jsonWebToken.verify(token, myJWTSecretKey, (err: any) => {
+            if (err) {
+                return res.sendStatus(403);
+            }
+
+            next();
+        });
+    } else {
+        res.sendStatus(401);
+    }
+};

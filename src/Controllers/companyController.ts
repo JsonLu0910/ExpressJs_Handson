@@ -23,18 +23,15 @@ import {  PrismaClient } from '@prisma/client';
 
 // hs
 // make sure your name is consistant, developer wont know what is updateComp, use updateCompany instead
-import { getAllEmployee,getAllCompany,createCompany, updateComp } from '../Services/routes';
+import { getAllEmployee,getAllCompany,createCompany, updateCompany } from '../Services/routes';
 
-// hs
-// makre sure you know what is this before import
-import createHttpError from 'http-errors';
 
-export const getAllCompanies =async (req:Request,res:Response,next:NextFunction)=>
+export const getAllCompanyController =async (req:Request,res:Response,next:NextFunction)=>
 {
     try
     {
         
-        const result = await getAllCompany();
+        const result = await getAllCompany(next);
         console.log(res)
         return res.send(result);
     }
@@ -46,12 +43,13 @@ export const getAllCompanies =async (req:Request,res:Response,next:NextFunction)
         // or try refer to my code
         // anything not understand please come to me
         console.log(e);
+        return next(e);
     }
 }
 
 // hs
 // the function naming should consistant, dont some use camel case and some use snake case
-export const create_Company =async (req:Request,res:Response,next:NextFunction)=>
+export const createCompanyController =async (req:Request,res:Response,next:NextFunction)=>
 {
     try
     {
@@ -62,20 +60,22 @@ export const create_Company =async (req:Request,res:Response,next:NextFunction)=
     catch(e)
     {
         console.log(e);
+        return next(e);
     }
 }
 
-export const updateCompany =async (req:Request,res:Response,next:NextFunction)=>
+export const updateCompanyController =async (req:Request,res:Response,next:NextFunction)=>
 {
     try
     {
-        const result = await updateComp(parseInt(req.body.id),req.body.name);
+        const result = await updateCompany(parseInt(req.body.id),req.body.name);
         console.log(res)
         return res.send(result);
     }
     catch(e)
     {
         console.log(e);
+        return next(e);
     }
 }
 

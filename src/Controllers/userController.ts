@@ -20,23 +20,24 @@
 
 import { Request, Response, NextFunction } from 'express';
 import {  PrismaClient } from '@prisma/client';
-import { getAllEmployee, getEmployeeByCompany,createEmployee,updateEmp,EmployeeLogin } from '../Services/routes';
+import { getAllEmployee, getEmployeeByCompany,createEmployee,updateEmployee,employeeLogin } from '../Services/routes';
 import createHttpError from 'http-errors';
 
-export const getAllEmployees =async (req:Request,res:Response,next:NextFunction)=>
+export const getAllEmployeeController =async (req:Request,res:Response,next:NextFunction)=>
 {
     try
     {
-        const result = await getAllEmployee();
+        const result = await getAllEmployee(next);
         return res.send(result);
     }
     catch(e)
     {
         console.log(e);
+        return next(e);
     }
 }
 
-export const getEmployeeByComp = async (req:Request,res:Response,next:NextFunction)=>
+export const getEmployeeByCompanyIdController = async (req:Request,res:Response,next:NextFunction)=>
 {
     
     const CompId = req.params.CompId;
@@ -44,7 +45,7 @@ export const getEmployeeByComp = async (req:Request,res:Response,next:NextFuncti
     return res.send(result);
 }
 
-export const create_Employee =async (req:Request,res:Response,next:NextFunction)=>
+export const createEmployeeController =async (req:Request,res:Response,next:NextFunction)=>
 {
     try
     {
@@ -55,25 +56,27 @@ export const create_Employee =async (req:Request,res:Response,next:NextFunction)
     catch(e)
     {
         console.log(e);
+        return next(e);
     }
 }
 
-export const updateEmployee =async (req:Request,res:Response,next:NextFunction)=>
+export const updateEmployeeController =async (req:Request,res:Response,next:NextFunction)=>
 {
     try
     {
-        const result = await updateEmp(parseInt(req.body.id),req.body.name);
+        const result = await updateEmployee(parseInt(req.body.id),req.body.name);
         console.log(res)
         return res.send(result);
     }
     catch(e)
     {
         console.log(e);
+        return next(e);
     }
 }
 
-export const Login = async (req:Request, res:Response, next:NextFunction)=>
+export const loginController = async (req:Request, res:Response, next:NextFunction)=>
 {
-    const result = await EmployeeLogin(req.body.name,req.body.password);
+    const result = await employeeLogin(req.body.name,req.body.password);
     return res.send(result);
 }

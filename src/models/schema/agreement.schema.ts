@@ -10,7 +10,7 @@ export const dataSchema = z.object({
         name: z.string({
             required_error: "Name is required",
             invalid_type_error: "Name must be a string"
-        }).max(10, { message: "Must be 10 or fewer characters long" }).min(8, { message: "Must be 8 or more characters long" }),
+        }).max(10, { message: "Must be 10 or fewer characters long" }).min(4, { message: "Must be 4 or more characters long" }),
         password: z.string({
             required_error: "Password is required",
         }).max(10, { message: "Must be 10 or fewer characters long" }).min(8, { message: "Must be 8 or more characters long" })
