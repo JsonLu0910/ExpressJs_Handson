@@ -9,6 +9,9 @@ var { expressjwt: jwt } = require("express-jwt");
 app.use(helmet());
 app.use(express.json());
 
+
+// hs
+// include the JWT auth part to here, refer to the jira task I created for you
 app.get("/api/getAllEmployee",getAllEmployees);
 app.get("/api/getAllCompany",getAllCompanies);
 //Added zod to validate
@@ -17,6 +20,9 @@ app.post("/api/createCompany",validate(companyDetails),create_Company);
 app.post("/api/createEmployee",validate(employeeDetails),create_Employee);
 app.put("/api/updateCompany",validate(updateCompanyDetail),updateCompany);
 app.put("/api/updateEmployee",validate(updateEmployeeDetail),updateEmployee);
+
+// hs
+// the route naming make it consistant, dont use camel case and snake case together
 app.get("/api/Login",validate(dataSchema),Login);
 
 
