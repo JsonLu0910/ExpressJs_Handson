@@ -20,7 +20,7 @@
 
 import { Request, Response, NextFunction } from 'express';
 import {  PrismaClient } from '@prisma/client';
-import { getAllEmployee, getEmployeeByCompany,createEmployee,updateEmployee,employeeLogin } from '../Services/routes';
+import { getAllEmployee, getEmployeeByCompany,createEmployee,updateEmployee,employeeLogin, deleteEmployee } from '../Services/routes';
 import createHttpError from 'http-errors';
 
 export const getAllEmployeeController =async (req:Request,res:Response,next:NextFunction)=>
@@ -39,9 +39,9 @@ export const getAllEmployeeController =async (req:Request,res:Response,next:Next
 
 export const getEmployeeByCompanyIdController = async (req:Request,res:Response,next:NextFunction)=>
 {
-    
-    const CompId = req.params.CompId;
-    const result = await getEmployeeByCompany(parseInt(CompId));
+    const CompId = req.params.companyId;
+    const result = await getEmployeeByCompany(parseInt(CompId),next);
+    console.log(result)
     return res.send(result);
 }
 
@@ -49,7 +49,7 @@ export const createEmployeeController =async (req:Request,res:Response,next:Next
 {
     try
     {
-        const result = await createEmployee(req.body.name,req.body.address,parseInt(req.body.age),parseInt(req.body.compId));
+        const result = await createEmployee(req.body.name,req.body.address,parseInt(req.body.age),parseInt(req.body.companyId),req.body.password,req.body.role);
         console.log(res)
         return res.send(result);
     }
@@ -77,6 +77,21 @@ export const updateEmployeeController =async (req:Request,res:Response,next:Next
 
 export const loginController = async (req:Request, res:Response, next:NextFunction)=>
 {
-    const result = await employeeLogin(req.body.name,req.body.password);
+    const result = await employeeLogin(req.body.name,req.body.password,next);
     return res.send(result);
+}
+
+export const deleteEmployeeController =async (req:Request,res:Response,next:NextFunction)=>
+{
+    try
+    {
+        const result = await deleteEmployee(parseInt(req.body.id),next);
+        console.log(res)
+        return res.send(result);
+    }
+    catch(e)
+    {
+        console.log(e);
+        return next(e);
+    }
 }

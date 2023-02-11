@@ -14,7 +14,7 @@ export const dataSchema = z.object({
         password: z.string({
             required_error: "Password is required",
         }).max(10, { message: "Must be 10 or fewer characters long" }).min(8, { message: "Must be 8 or more characters long" })
-
+ 
     }),
 });
 
@@ -29,17 +29,17 @@ export const validate =
                 });
                 return next();
             } catch (error) {
-                return res.status(400).json("Error:" + error);
+                console.log(error)
+                return res.status(400).json("Status code 500");
             }
         };
 
 export const employeeCompanyId = z.object({
-    body: z.object({
+   
         companyId: z.number({
             required_error: "Company ID is required",
-            invalid_type_error: "Company ID must be a number"
         })
-    }),
+  
 })
 
 export const employeeDetails = z.object({
@@ -47,21 +47,19 @@ export const employeeDetails = z.object({
         name: z.string({
             required_error: "Name is required",
             invalid_type_error: "Name must be a string"
-        }).max(10, { message: "Must be 10 or fewer characters long" }).min(8, { message: "Must be 8 or more characters long" }),
+        }).max(100, { message: "Must be 10 or fewer characters long" }).min(5, { message: "Must be 5 or more characters long" }),
         password: z.string({
             required_error: "Password is required",
-        }).max(10, { message: "Must be 10 or fewer characters long" }).min(8, { message: "Must be 8 or more characters long" })
-    }),
-    companyId: z.number({
-        required_error: "Company ID is required",
-        invalid_type_error: "Company ID must be a number"
-    }),
-    address: z.string({
-        required_error: "Address is required",
-    }).max(100, { message: "Must be 10 or fewer characters long" }),
-    age: z.number({
-        required_error: "Age is required",
-        invalid_type_error: "Age must be a number"
+        }).max(100, { message: "Must be 10 or fewer characters long" }).min(8, { message: "Must be 8 or more characters long" }),
+        companyId: z.number({
+            required_error: "Company ID is required",
+        }),
+        address: z.string({
+            required_error: "Address is required",
+        }).max(100, { message: "Must be 10 or fewer characters long" }),
+        age: z.number({
+            required_error: "Age is required",
+        })
     })
 });
 
@@ -95,7 +93,7 @@ export const updateEmployeeDetail = z.object({
         name: z.string({
             required_error: "Name is required",
             invalid_type_error: "Name must be a string"
-        }).max(50, { message: "Must be 50 or fewer characters long" }).min(8, { message: "Must be 8 or more characters long" }),
+        }).max(50, { message: "Must be 50 or fewer characters long" }).min(5, { message: "Must be 5 or more characters long" }),
         id: z.number({
             required_error: "id is required",
         })
