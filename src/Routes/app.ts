@@ -23,6 +23,10 @@ app.use((req, res, next) => {
 	res.setHeader('Access-Control-ALlow-Credentials', 'false');
 	next();
 });
+
+app.get("/",(req,res)=>{
+	res.send("hello");
+})
 // hs
 // include the JWT auth part to here, refer to the jira task I created for you
 
