@@ -1,5 +1,1 @@
-testing for integration
-another testing
-new testing
-add another testing
-test
+testing for jenkins pipeline
