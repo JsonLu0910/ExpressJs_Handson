@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/",(req,res)=>{
-	res.jsonp({"usage": Math.random() });
+	res.jsonp({"usagee": Math.random() });
 	return res.end();
 })
 // hs
