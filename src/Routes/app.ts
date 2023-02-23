@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/",(req,res)=>{
-	res.send("hello testing for jenkins");
+	res.send("hello");
 })
 // hs
 // include the JWT auth part to here, refer to the jira task I created for you
