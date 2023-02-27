@@ -19,7 +19,7 @@ ftp -i -s:FileZillaClient.bat
 if  errorlevel 1 goto ERROR
 echo SUCCESSFUL
 goto EOF 
-
+adadwada
 :ERROR
 echo Failed
 exit /b 1
