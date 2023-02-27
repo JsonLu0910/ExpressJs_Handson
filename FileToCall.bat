@@ -21,7 +21,7 @@ set "errorlevel="
 
 REM Catch block
 if defined errorlevel (
-y    REM Error handling code goes here
+    REM Error handling code goes here
     echo An error occurred. Stopping the script...
     exit /b 1
 )
