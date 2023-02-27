@@ -16,11 +16,17 @@ echo Done!
 
 ftp -i -s:FileZillaClient.bat
 
-set "errorlevel="
-( command1 && command2 && command3 ) || set "errorlevel=1"
+setlocal enableDelayedExpansion
+set "error="
+(
+    REM Code that might cause an error goes here
+    command1
+    command2
+    command3
+) || set "error=1"
 
 REM Catch block
-if defined errorlevel (
+if defined error (
     REM Error handling code goes here
     echo An error occurred. Stopping the script...
     exit /b 1
