@@ -16,11 +16,9 @@ echo done!
 
 ftp -i -s:FileZillaClient.bat
 
-if  errorlevel 1 goto ERROR
-echo SUCCESSFUL
-goto EOF 
-adadwada
-:ERROR
-echo Failed
-exit /b 1
-:EOF
+if %ERRORLEVEL% EQU 0(
+    echo No errors, all done
+)
+else(
+    echo Something wrong when executing the batch script.
+)
