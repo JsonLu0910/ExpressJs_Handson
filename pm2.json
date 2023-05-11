@@ -1,0 +1,13 @@
+{
+    "apps": [
+        {
+            "name": "Express",
+            "script": "./src/Routes/app.ts",
+            "interpreter": "ts-node",
+            "env": {
+                "ENV": "prod",
+                "PORT": 3000
+            }
+        }
+    ]
+}

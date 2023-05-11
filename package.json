@@ -6,16 +6,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only src/Routes/app.ts",
-    "start": "ts-node-dev main.ts"
+    "start": "ts-node-dev main.ts",
+    "tsc:dev": "tsc && copy *.env.* dist\\ &&dotenv -e ./dist/.env.test pm2 start --name express dist/src/Routes/app.js",
+    "pm2:dev": "tsc  && pm2 start ecosystem.config.js --env dev",
+    "pm2:local": "tsc && pm2 start ecosystem.config.js --env local",
+    "pm2:test": "tsc && pm2 start ecosystem.config.js --env test",
+    "dev:local": "dotenv -e .env.local -- nodemon --exec npx ts-node src/Routes/app.ts",
+    "pm2:start:dev": "pm2 start --name 'express' dist/src/Routes/app.js --env NODE_ENV =dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.16",
     "@types/http-errors": "^2.0.1",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.11.18",
+    "dotenv": "^16.0.3",
     "prisma": "^4.9.0",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
@@ -30,6 +38,7 @@
     "helmet": "^6.0.1",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.0",
+    "multer": "^1.4.5-lts.1",
     "yarn": "^1.22.19",
     "zod": "^3.20.2"
   }

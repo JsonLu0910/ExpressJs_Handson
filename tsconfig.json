@@ -102,5 +102,9 @@
     "sourceMap": true,
     "outDir": "dist",
     "lib": ["esnext"],
-  }
+  },
+  "include": [
+    "src/*/*.ts",
+    ".env.*"   // add this line to include the .env file
+  ]
 }

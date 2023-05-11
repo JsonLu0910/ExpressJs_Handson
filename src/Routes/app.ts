@@ -5,17 +5,24 @@ import { getAllEmployeeController,getEmployeeByCompanyIdController,createEmploye
 import { createCompanyController, getAllCompanyController, updateCompanyController } from '../Controllers/companyController';
 import {validate,dataSchema,employeeCompanyId,employeeDetails,companyDetails,updateCompanyDetail,updateEmployeeDetail} from '../models/schema/agreement.schema'
 import { authenticateJWT } from '../Services/routes';
+
+// import dotenv from 'dotenv';
+
+// dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+
 const app = express();
 const cors = require("cors")
 var { expressjwt: jwt } = require("express-jwt");
 const useragent = require('express-useragent')
+const port = process.env.SERVER_PORT || 3000;
+const nodeEnv = process.env.NODE_ENV || 'undefined';
+
 app.set('trust proxy', true);
 app.use(cors());
 app.use(useragent.express())
 app.use(cors({origin:'*'}))
 app.use(helmet());
 app.use(express.json());
-
 app.use((req, res, next) => {
 	res.header('Access-Control-ALlow-Origin', '*');
 	res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -25,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/",(req,res)=>{
-	res.send("hello....");
+	res.send("hello world " + process.env.USER);
 })
 // hs
 // include the JWT auth part to here, refer to the jira task I created for you
@@ -44,6 +51,10 @@ app.delete("/api/deleteEmployee",authenticateJWT,deleteEmployeeController);
 app.post("/api/login",loginController);
 
 
-app.listen(3000,()=>{
-    console.log("listening port http://localhost:3000");
+
+
+app.listen(port,()=>{
+    console.log(`🚀 ${nodeEnv.toUpperCase()} @ PORT ${port}`);
+	console.log(process.env.USER);
+	console.log("")
 });
