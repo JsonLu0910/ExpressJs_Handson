@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express';
 import { NextFunction } from 'express-serve-static-core';
 import helmet from "helmet";
-import { getAllEmployeeController,getEmployeeByCompanyIdController,createEmployeeController,updateEmployeeController,loginController, deleteEmployeeController } from '../Controllers/userController';
+import { getAllEmployeeController,getEmployeeByCompanyIdController,createEmployeeController,updateEmployeeController,loginController, deleteEmployeeController, uploadFileController, upload, getFileController } from '../Controllers/userController';
 import { createCompanyController, getAllCompanyController, updateCompanyController } from '../Controllers/companyController';
 import {validate,dataSchema,employeeCompanyId,employeeDetails,companyDetails,updateCompanyDetail,updateEmployeeDetail} from '../models/schema/agreement.schema'
 import { authenticateJWT } from '../Services/routes';
@@ -50,6 +50,22 @@ app.delete("/api/deleteEmployee",authenticateJWT,deleteEmployeeController);
 // the route naming make it consistant, dont use camel case and snake case together
 app.post("/api/login",loginController);
 
+// Route to upload file
+app.post("/uploadFile",upload.array('files', 10), async (req:Request, res:Response, next) => {
+	try {
+		 const {files} =req;
+		 uploadFileController(res, next, files);
+		 
+
+	} catch (err) {
+		console.log(err);
+		return next(err);
+	}
+}
+);
+
+// Route to get file
+app.get('/getFile',getFileController);
 
 
 
